@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lucky Visitor</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+    }
+    #banner {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95vw;              /* take almost full screen width */
+      text-align: center;
+      font-size: clamp(20px, 5vw, 60px); /* scales between 20px and 60px */
+      line-height: 1.2;
+      word-wrap: break-word;
+      animation: colorchange 0.6s infinite;
+    }
+    @keyframes colorchange {
+      0%   { color: red; }
+      33%  { color: green; }
+      66%  { color: blue; }
+      100% { color: red; }
+    }
+    .logo {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="banner">
+    USER KNOWN AS "TARU CHAN" <br>
+    IS THE LUCKY <br>
+    1st VISITOR!! WOW <br>
+    YOU WIN NOTHING!!
+  </div>
+
+  <script>
+    const numLogos = 5; // how many faces
+    const logos = [];
+
+    for (let i = 0; i < numLogos; i++) {
+      const img = document.createElement("img");
+      img.src = "https://e7.pngegg.com/pngimages/44/16/png-clipart-smiley-face-emoticon-smiley-miscellaneous-face.png";
+      img.className = "logo";
+      document.body.appendChild(img);
+
+      logos.push({
+        el: img,
+        x: Math.random() * (window.innerWidth - 100),
+        y: Math.random() * (window.innerHeight - 100),
+        dx: (Math.random() > 0.5 ? 1 : -1) * (3 + Math.random() * 3),
+        dy: (Math.random() > 0.5 ? 1 : -1) * (3 + Math.random() * 3)
+      });
+    }
+
+    function bounce() {
+      const w = window.innerWidth - 100;
+      const h = window.innerHeight - 100;
+
+      logos.forEach(logo => {
+        logo.x += logo.dx;
+        logo.y += logo.dy;
+
+        if (logo.x <= 0 || logo.x >= w) logo.dx = -logo.dx;
+        if (logo.y <= 0 || logo.y >= h) logo.dy = -logo.dy;
+
+        logo.el.style.left = logo.x + "px";
+        logo.el.style.top = logo.y + "px";
+      });
+
+      requestAnimationFrame(bounce);
+    }
+
+    bounce();
+  </script>
+</body>
+</html>
